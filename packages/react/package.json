@@ -32,8 +32,10 @@
     "test": "bun test",
     "typecheck": "tsc"
   },
+  "dependencies": {
+    "@geothai/maps": "^0.0.0"
+  },
   "devDependencies": {
-    "@geothai/maps": "workspace:*",
     "@repo/typescript": "workspace:*",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",

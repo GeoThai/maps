@@ -38,8 +38,10 @@
     "packages/react": {
       "name": "@geothai/maps-react",
       "version": "0.0.0",
+      "dependencies": {
+        "@geothai/maps": "^0.0.0",
+      },
       "devDependencies": {
-        "@geothai/maps": "workspace:*",
         "@repo/typescript": "workspace:*",
         "@types/react": "19.3.0",
         "@types/react-dom": "19.3.0",
