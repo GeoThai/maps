@@ -1,5 +1,11 @@
 # @geothai/maps
 
+## 0.1.1
+
+### Patch Changes
+
+- [`228cef9`](https://github.com/GeoThai/maps/commit/228cef90372de965fe833d202eeaac8a03675109) Thanks [@pyyupsk](https://github.com/pyyupsk)! - Each package ships its own README.
+
 ## 0.1.0
 
 ### Minor Changes
