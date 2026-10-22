@@ -21,7 +21,7 @@
       "devDependencies": {
         "@arethetypeswrong/core": "0.18.5",
         "@happy-dom/global-registrator": "21.0.4",
-        "@repo/typescript-config": "workspace:*",
+        "@repo/typescript": "workspace:*",
         "@types/d3-geo": "3.1.1",
         "@types/geojson": "7946.0.16",
         "@types/topojson-client": "3.1.5",
@@ -39,7 +39,7 @@
       "version": "0.0.0",
       "devDependencies": {
         "@geothai/maps": "workspace:*",
-        "@repo/typescript-config": "workspace:*",
+        "@repo/typescript": "workspace:*",
         "@types/react": "19.3.0",
         "@types/react-dom": "19.3.0",
         "react": "19.3.1",
@@ -50,8 +50,8 @@
         "react": ">=19",
       },
     },
-    "packages/typescript-config": {
-      "name": "@repo/typescript-config",
+    "packages/typescript": {
+      "name": "@repo/typescript",
       "version": "0.0.0",
     },
   },
@@ -246,7 +246,7 @@
 
     "@quansync/fs": ["@quansync/fs@1.1.0", "", { "dependencies": { "quansync": "^1.0.0" } }, "sha512-qAPG/t3HqML1TlN7sY/pTbEjzFVAKsMjNNMGheyDosro+kT4iw2KCUoHcVdmliwWjorm4elZbgNQyU2eD97eDg=="],
 
-    "@repo/typescript-config": ["@repo/typescript-config@workspace:packages/typescript-config"],
+    "@repo/typescript": ["@repo/typescript@workspace:packages/typescript"],
 
     "@rolldown/binding-android-arm-eabi": ["@rolldown/binding-android-arm-eabi@1.2.15", "", { "os": "android", "cpu": "arm" }, "sha512-aLcgK9gIJ3YRvrrtfSBbRa27F5WrpiTaPulnFpsHPxpUHgFlSgnU4854MHwoRGEBhfRJDWCS2WQ7lIjskE9Olw=="],
 
