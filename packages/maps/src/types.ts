@@ -1,7 +1,9 @@
 /** One area on a map, already projected to the map's own coordinates. */
 export type Shape = {
-  /** DOPA code, such as `'84'` or `'8405'`. */
+  /** DOPA code, such as `'84'` or `'8405'`. For a shape that covers several new areas, the first. */
   code: string;
+  /** Every area the shape covers. Only a shape whose old border holds several new areas has it. */
+  codes?: string[];
   name_th: string;
   name_en: string;
   /** SVG path data in whole map units. */

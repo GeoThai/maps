@@ -6,10 +6,17 @@ import { feature, mesh } from 'topojson-client';
 import { presimplify, simplify, sphericalTriangleArea } from 'topojson-simplify';
 import type { GeometryCollection, Topology } from 'topojson-specification';
 
-import type { MapShapes } from '../src/types';
+import type { MapShapes, Shape } from '../src/types';
 import { compact } from './compact';
 
-type Props = { code: string; name_th: string; name_en: string; province_code?: string };
+type Props = {
+  code: string | null;
+  codes?: string[];
+  name_th: string | null;
+  name_en: string | null;
+  district_code?: string;
+  province_code?: string;
+};
 type Areas = GeometryCollection<Props>;
 
 /** Map units across. A path keeps one point per unit, so this sets the detail and the size. */
@@ -18,12 +25,19 @@ const WIDTH = 1000;
 /** Width of the small country map, for locators and thumbnails. */
 const SMALL = 200;
 
+/** Width of a subdistrict map. A district page shows it at under 600 px, and there are 928. */
+const SUBDISTRICT_WIDTH = 600;
+
 const root = new URL('..', import.meta.url).pathname;
 const version = (await Bun.file(`${root}boundaries.version`).text()).trim();
 const url = `https://cdn.jsdelivr.net/gh/GeoThai/boundaries@${version}/boundaries.topojson`;
 const res = await fetch(url, { signal: AbortSignal.timeout(120_000) });
 if (!res.ok) throw new Error(`GeoThai/boundaries ${version}: HTTP ${res.status}`);
-const full = (await res.json()) as Topology<{ provinces: Areas; districts: Areas }>;
+const full = (await res.json()) as Topology<{
+  provinces: Areas;
+  districts: Areas;
+  subdistricts: Areas;
+}>;
 const weighted = presimplify(full, sphericalTriangleArea);
 
 /**
@@ -46,12 +60,16 @@ function draw(
   return {
     width,
     height: Math.ceil(bottom),
-    shapes: places.features.map((f) => ({
-      code: f.properties.code,
-      name_th: f.properties.name_th,
-      name_en: f.properties.name_en,
-      d: line(f),
-    })),
+    shapes: places.features.map(({ properties: p, ...f }) => {
+      const shape: Shape = {
+        code: p.code ?? p.codes?.[0] ?? '',
+        name_th: p.name_th ?? '',
+        name_en: p.name_en ?? '',
+        d: line({ ...f, properties: p }),
+      };
+      if (p.codes && p.codes.length > 1) shape.codes = p.codes;
+      return shape;
+    }),
     borders: line(mesh(topo, areas, (a, b) => a !== b)),
     outline: line(mesh(topo, areas, (a, b) => a === b)),
   };
@@ -96,6 +114,54 @@ ${codes.map((c) => `  '${c}': () => import('./${c}'),`).join('\n')}
 `,
 );
 
+// One map of the subdistricts per district, for the pages of a district and of a postal code.
+// A shape that covers several new khwaeng has no name in GeoThai/boundaries, so the names come
+// from the GeoThai/data release in data.version.
+const dataVersion = (await Bun.file(`${root}data.version`).text()).trim();
+const names = await getNames();
+const byDistrict = Map.groupBy(
+  full.objects.subdistricts.geometries,
+  (g) => (g.properties as Props).district_code ?? '',
+);
+const districtCodes = full.objects.districts.geometries
+  .map((g) => (g.properties as Props).code ?? '')
+  .toSorted();
+await mkdir(`${root}src/shapes/subdistricts`, { recursive: true });
+await Promise.all(
+  districtCodes.map(async (code) => {
+    const shapes = byDistrict.get(code);
+    if (!shapes?.length) throw new Error(`district ${code} has no subdistricts`);
+    const map = draw(shapes, geoMercator(), SUBDISTRICT_WIDTH);
+    for (const shape of map.shapes) {
+      const all = (shape.codes ?? [shape.code]).map((c) => names.get(c));
+      if (all.some((n) => !n)) throw new Error(`subdistrict ${shape.code} is not in GeoThai/data`);
+      shape.name_th = all.map((n) => n?.[0]).join(' / ');
+      shape.name_en = all.map((n) => n?.[1] ?? '').join(' / ');
+    }
+    await Bun.write(`${root}src/shapes/subdistricts/${code}.ts`, module(map, '../../types'));
+  }),
+);
+await Bun.write(
+  `${root}src/shapes/subdistricts/index.ts`,
+  `${header}import type { MapShapes } from '../../types';
+
+/** Loads the subdistricts of one district. Each district is its own chunk. */
+export const loaders: Record<string, () => Promise<{ default: MapShapes }>> = {
+${districtCodes.map((c) => `  '${c}': () => import('./${c}'),`).join('\n')}
+};
+`,
+);
+
+async function getNames(): Promise<Map<string, [string, string | null]>> {
+  const data = await fetch(
+    `https://cdn.jsdelivr.net/gh/GeoThai/data@${dataVersion}/json/subdistricts.json`,
+    { signal: AbortSignal.timeout(60_000) },
+  );
+  if (!data.ok) throw new Error(`GeoThai/data ${dataVersion}: HTTP ${data.status}`);
+  const rows = (await data.json()) as { code: string; name_th: string; name_en: string | null }[];
+  return new Map(rows.map((r) => [r.code, [r.name_th, r.name_en]]));
+}
+
 console.log(
-  `GeoThai/boundaries ${version}: ${country.shapes.length} provinces, ${codes.length} district maps`,
+  `GeoThai/boundaries ${version}: ${country.shapes.length} provinces, ${codes.length} district maps, ${districtCodes.length} subdistrict maps`,
 );

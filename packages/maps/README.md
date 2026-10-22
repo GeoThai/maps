@@ -23,11 +23,15 @@ const svg = toSvg(render(provinces, { title: 'Thailand', href: (s) => `/province
 `provinces` holds all 77 provinces. For the districts of one province, load only that province:
 
 ```js
-import { districtMap, hasDistrictMap } from '@geothai/maps';
+import { districtMap, subdistrictMap } from '@geothai/maps';
 
 const surat = await districtMap('84'); // the 19 districts of Surat Thani
-hasDistrictMap('84'); // true, for every province
+const kopangan = await subdistrictMap('8405'); // the 3 subdistricts of Ko Pha-ngan
 ```
+
+Each province and each district is its own module, so a page loads only the map it shows.
+The source lines date from 2022, before DOPA cut some new khwaeng in Bangkok out of older ones.
+A shape that covers several of them has `codes` with all of them, and both names.
 
 ## Color areas by value
 
@@ -77,6 +81,9 @@ The element draws into the light DOM, so server HTML, styles and links work as w
 | `provinces`                  | All 77 provinces, with `width`, `height`, `borders`, `outline` |
 | `districtMap(code)`          | The districts of one province, loaded on demand                |
 | `hasDistrictMap(code)`       | `true` for every province code                                 |
+| `subdistrictMap(code)`       | The subdistricts of one district, loaded on demand             |
+| `hasSubdistrictMap(code)`    | `true` for every district code                                 |
+| `provincesSmall`             | The country map at a fifth of the width, for locators          |
 | `fromNames(names, map)`      | Codes for names as people write them, plus `unmatched`         |
 | `choropleth(map, values, o)` | One fill per code, and the legend                              |
 | `render(map, options)`       | The SVG attributes and elements, for your own renderer         |
