@@ -23,9 +23,10 @@ jobs:
         with:
           bun-version-file: package.json
       - run: bun install --frozen-lockfile
+      # Type-aware lint reads the types of @geothai/maps from dist/.
+      - run: bun run build
       - run: bun run lint
       - run: bun run format:check
-      - run: bun run build
       - run: bun run typecheck
       - run: bun run test
 
