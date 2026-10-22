@@ -18,7 +18,7 @@ const tiny: MapShapes = {
 test('render lays out areas first, then borders and outline', () => {
   const model = render(tiny, { fills: { 10: '#000' } });
   expect(model.viewBox).toBe('0 0 10 10');
-  expect(model.nodes.map((n) => (n.kind === 'area' ? n.code : n.key))).toEqual([
+  expect(model.nodes.map((n) => (n.kind === 'line' ? n.key : n.code))).toEqual([
     '10',
     '11',
     'borders',
