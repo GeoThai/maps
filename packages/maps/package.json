@@ -25,6 +25,7 @@
   "sideEffects": false,
   "exports": {
     ".": "./dist/index.js",
+    "./element": "./dist/element.js",
     "./types": "./dist/types.js",
     "./package.json": "./package.json"
   },
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@arethetypeswrong/core": "0.18.5",
+    "@happy-dom/global-registrator": "21.0.4",
     "@repo/typescript-config": "workspace:*",
     "@types/d3-geo": "3.1.1",
     "@types/geojson": "7946.0.16",
