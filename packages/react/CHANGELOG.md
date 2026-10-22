@@ -1,5 +1,12 @@
 # @geothai/maps-react
 
+## 0.2.0
+
+### Patch Changes
+
+- Updated dependencies [[`1b39b00`](https://github.com/GeoThai/maps/commit/1b39b003b20bf4026bc2af5d9701592435895426)]:
+  - @geothai/maps@0.2.0
+
 ## 0.1.1
 
 ### Patch Changes
