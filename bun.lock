@@ -18,7 +18,7 @@
     },
     "packages/maps": {
       "name": "@geothai/maps",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "devDependencies": {
         "@arethetypeswrong/core": "0.18.5",
         "@happy-dom/global-registrator": "21.0.4",
@@ -39,7 +39,7 @@
     },
     "packages/react": {
       "name": "@geothai/maps-react",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "dependencies": {
         "@geothai/maps": "^0.3.0",
       },
@@ -57,7 +57,7 @@
     },
     "packages/svelte": {
       "name": "@geothai/maps-svelte",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "dependencies": {
         "@geothai/maps": "^0.3.0",
       },
@@ -79,7 +79,7 @@
     },
     "packages/vue": {
       "name": "@geothai/maps-vue",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "dependencies": {
         "@geothai/maps": "^0.3.0",
       },
