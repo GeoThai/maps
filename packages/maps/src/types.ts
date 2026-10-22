@@ -19,6 +19,14 @@ export type MapShapes = {
   outline: string;
 };
 
+/** What `fromNames()` returns. */
+export type NameMatch = {
+  /** The code of each name it could place, keyed by the name as given. */
+  found: Record<string, string>;
+  /** Names that match no area, or more than one. */
+  unmatched: string[];
+};
+
 /** How `choropleth()` turns values into colors. */
 export type ColorOptions = {
   /** Colors from low to high. Default: five steps from Mist to Black. */

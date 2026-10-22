@@ -7,17 +7,23 @@ so the package needs no map library and no network at runtime.
 
 ## Packages
 
-| Package                                   | What it gives                                                                            |
-| ----------------------------------------- | ---------------------------------------------------------------------------------------- |
-| [`@geothai/maps`](./packages/maps)        | `provinces`, `districtMap('84')`, `render()`, `toSvg()`, `choropleth()`, `<geothai-map>` |
-| [`@geothai/maps-react`](./packages/react) | `<GeoThaiMap map={provinces} />`, the same markup as `toSvg()`                           |
+| Package                                   | What it gives                                                                                           |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| [`@geothai/maps`](./packages/maps)        | `provinces`, `districtMap('84')`, `fromNames()`, `render()`, `toSvg()`, `choropleth()`, `<geothai-map>` |
+| [`@geothai/maps-react`](./packages/react) | `<GeoThaiMap map={provinces} />`, the same markup as `toSvg()`                                          |
 
 ## Example
 
 ```js
-import { choropleth, provinces, render, toSvg } from '@geothai/maps';
+import { choropleth, fromNames, provinces, render, toSvg } from '@geothai/maps';
 
-const { fills, legend } = choropleth(provinces, { 84: 912, 30: 381 });
+// Names from a spreadsheet, as people typed them.
+const sheet = { 'จ.สุราษฎร์ธานี': 912, 'Chon Buri': 381, กทม: 1204, โคราช: 260 };
+const { found, unmatched } = fromNames(Object.keys(sheet), provinces);
+// unmatched: ['โคราช'], so you can fix it before you publish the map
+const values = Object.fromEntries(Object.entries(found).map(([name, code]) => [code, sheet[name]]));
+
+const { fills, legend } = choropleth(provinces, values);
 const svg = toSvg(
   render(provinces, { fills, title: 'Thailand', href: (s) => `/provinces/${s.code}/` }),
 );
