@@ -5,6 +5,7 @@ export { choropleth } from './colors';
 export { fromNames } from './names';
 export { render, toSvg } from './render';
 export { default as provinces } from './shapes/provinces';
+export { default as provincesSmall } from './shapes/provinces-small';
 
 /**
  * True if there is a district map for this province code.

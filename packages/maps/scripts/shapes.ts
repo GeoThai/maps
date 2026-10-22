@@ -15,6 +15,9 @@ type Areas = GeometryCollection<Props>;
 /** Map units across. A path keeps one point per unit, so this sets the detail and the size. */
 const WIDTH = 1000;
 
+/** Width of the small country map, for locators and thumbnails. */
+const SMALL = 200;
+
 const root = new URL('..', import.meta.url).pathname;
 const version = (await Bun.file(`${root}boundaries.version`).text()).trim();
 const url = `https://cdn.jsdelivr.net/gh/GeoThai/boundaries@${version}/boundaries.topojson`;
@@ -27,17 +30,21 @@ const weighted = presimplify(full, sphericalTriangleArea);
  * Draws areas so they fill WIDTH. Points whose triangle is under one map unit square are dropped
  * first, on the shared arcs, so neighbours keep the same border and no gap opens.
  */
-function draw(geometries: Areas['geometries'], projection: GeoProjection): MapShapes {
+function draw(
+  geometries: Areas['geometries'],
+  projection: GeoProjection,
+  width = WIDTH,
+): MapShapes {
   const areas: Areas = { type: 'GeometryCollection', geometries };
   const [[west], [east]] = geoBounds(feature(full, areas));
-  const unit = ((east - west) * Math.PI) / 180 / WIDTH;
+  const unit = ((east - west) * Math.PI) / 180 / width;
   const topo = simplify(weighted, unit * unit);
   const places = feature(topo, areas);
-  const path = geoPath(projection.fitWidth(WIDTH, places)).digits(0);
+  const path = geoPath(projection.fitWidth(width, places)).digits(0);
   const line = (g: Parameters<typeof path>[0]) => compact(path(g) ?? '');
   const [, [, bottom]] = path.bounds(places);
   return {
-    width: WIDTH,
+    width,
     height: Math.ceil(bottom),
     shapes: places.features.map((f) => ({
       code: f.properties.code,
@@ -55,12 +62,12 @@ const module = (data: MapShapes, typePath: string) =>
   `${header}import type { MapShapes } from '${typePath}';\n\nconst shapes: MapShapes = ${JSON.stringify(data)};\n\nexport default shapes;\n`;
 
 // The whole country: equal area, so the colors of a choropleth are not skewed by size.
-const country = draw(
-  full.objects.provinces.geometries,
-  geoConicEqualArea().parallels([8, 18]).rotate([-100.5, 0]),
-);
+const projection = geoConicEqualArea().parallels([8, 18]).rotate([-100.5, 0]);
+const country = draw(full.objects.provinces.geometries, projection);
+const countrySmall = draw(full.objects.provinces.geometries, projection, SMALL);
 await mkdir(`${root}src/shapes/districts`, { recursive: true });
 await Bun.write(`${root}src/shapes/provinces.ts`, module(country, '../types'));
+await Bun.write(`${root}src/shapes/provinces-small.ts`, module(countrySmall, '../types'));
 
 // One map per province, so each province fills the width.
 const byProvince = Map.groupBy(
