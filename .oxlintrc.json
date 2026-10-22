@@ -78,7 +78,7 @@
   "options": {
     "typeAware": true
   },
-  "ignorePatterns": ["**/src/shapes/**", "**/dist/**"],
+  "ignorePatterns": ["**/.svelte-kit/**", "**/dist/**", "**/src/shapes/**"],
   "overrides": [
     {
       "files": ["**/scripts/**"],

@@ -1,0 +1,14 @@
+GeoThai boundaries
+
+The boundary lines come from the OCHA COD-AB dataset for Thailand, on the Humanitarian
+Data Exchange, <https://data.humdata.org/dataset/cod-ab-tha>.
+
+- Drawn by: Royal Thai Survey Department (กรมแผนที่ทหาร), acquired by ICRC and made
+  available by OCHA Field Information Services Section
+- License: Creative Commons Attribution 3.0 IGO (LICENSE)
+- Changes by GeoThai: renamed the p-codes `TH…` to DOPA codes, linked 3 old-code shapes to
+  their current subdistricts, simplified the lines to 5% of the points, and dissolved the
+  district and province shapes out of the subdistrict layer
+
+The subdistrict, district and province codes and names come from GeoThai/data, licensed
+under CC BY 4.0: <https://github.com/GeoThai/data>

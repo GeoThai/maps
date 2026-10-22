@@ -1,0 +1,8 @@
+{
+  "extends": "@repo/typescript/base.json",
+  "compilerOptions": {
+    "isolatedDeclarations": false,
+    "verbatimModuleSyntax": false
+  },
+  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte", "test/**/*.ts"]
+}

@@ -7,10 +7,12 @@ so the package needs no map library and no network at runtime.
 
 ## Packages
 
-| Package                                   | What it gives                                                                                           |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| [`@geothai/maps`](./packages/maps)        | `provinces`, `districtMap('84')`, `fromNames()`, `render()`, `toSvg()`, `choropleth()`, `<geothai-map>` |
-| [`@geothai/maps-react`](./packages/react) | `<GeoThaiMap map={provinces} />`, the same markup as `toSvg()`                                          |
+| Package                                     | What it gives                                                                                           |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| [`@geothai/maps`](./packages/maps)          | `provinces`, `districtMap('84')`, `fromNames()`, `render()`, `toSvg()`, `choropleth()`, `<geothai-map>` |
+| [`@geothai/maps-react`](./packages/react)   | `<GeoThaiMap map={provinces} />`, the same markup as `toSvg()`                                          |
+| [`@geothai/maps-vue`](./packages/vue)       | The same component for Vue 3.5                                                                          |
+| [`@geothai/maps-svelte`](./packages/svelte) | The same component for Svelte 5                                                                         |
 
 ## Example
 

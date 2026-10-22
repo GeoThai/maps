@@ -5,5 +5,11 @@
   "sortPackageJson": {
     "sortScripts": true
   },
-  "ignorePatterns": ["**/bun.lock", "**/src/shapes/**", "**/dist/**", ".changeset/*.md"]
+  "ignorePatterns": [
+    "**/.svelte-kit/**",
+    "**/bun.lock",
+    "**/dist/**",
+    "**/src/shapes/**",
+    ".changeset/*.md"
+  ]
 }

@@ -1,8 +1,13 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
-  "changelog": ["@changesets/changelog-github", { "repo": "GeoThai/maps" }],
+  "changelog": [
+    "@changesets/changelog-github",
+    {
+      "repo": "GeoThai/maps"
+    }
+  ],
   "commit": false,
-  "fixed": [["@geothai/maps", "@geothai/maps-react"]],
+  "fixed": [["@geothai/maps", "@geothai/maps-react", "@geothai/maps-vue", "@geothai/maps-svelte"]],
   "access": "public",
   "baseBranch": "main",
   "ignore": []
