@@ -68,7 +68,7 @@ For plain HTML or any framework without an adapter:
 <script type="module">
   import '@geothai/maps/element';
 </script>
-<geothai-map title="Thailand" href="/provinces/{code}/"></geothai-map>
+<geothai-map title="Thailand" href="/provinces/{code}/" labels="th"></geothai-map>
 <geothai-map level="district" province="84" fills='{"8405": "#0f1115"}'></geothai-map>
 ```
 
@@ -89,6 +89,18 @@ The element draws into the light DOM, so server HTML, styles and links work as w
 | `render(map, options)`       | The SVG attributes and elements, for your own renderer         |
 | `toSvg(model)`               | The whole map as an SVG string                                 |
 | types                        | `@geothai/maps/types`: `Shape`, `MapShapes`, `MapModel`, …     |
+
+`render()` also takes `labels` (the text to write at the label point of each area, `undefined` for
+none) and `labelSize` (its height in map units, a fiftieth of the width by default). Every shape
+has a label point (`x`, `y`): the point deepest inside its largest part, so a label never falls
+outside.
+
+```js
+render(provinces, { labels: (s) => s.name_th, labelSize: 14 });
+// → the model ends with one { kind: 'label', x, y, text, size } per province
+```
+
+`<geothai-map>` reads `labels="th"` or `labels="en"` for the same thing.
 
 ## Data
 
