@@ -1,6 +1,6 @@
 {
   "name": "@geothai/maps-react",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "React component for maps of Thailand, on DOPA codes",
   "keywords": [
     "choropleth",
@@ -33,7 +33,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@geothai/maps": "^0.1.1"
+    "@geothai/maps": "^0.2.0"
   },
   "devDependencies": {
     "@repo/typescript": "workspace:*",
