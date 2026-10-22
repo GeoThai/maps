@@ -19,6 +19,23 @@ export type MapShapes = {
   outline: string;
 };
 
+/** How `choropleth()` turns values into colors. */
+export type ColorOptions = {
+  /** Colors from low to high. Default: five steps from Mist to Black. */
+  colors?: readonly string[];
+  /**
+   * `'quantile'` puts about the same number of areas in each color. `'equal'` cuts the range
+   * into steps of the same size. Or give the upper bound of each color but the last.
+   */
+  breaks?: 'quantile' | 'equal' | number[];
+};
+
+/** One row of the legend: the color and the values it stands for. */
+export type LegendItem = { color: string; from: number; to: number };
+
+/** What `choropleth()` returns: a color for every area code, and the legend. */
+export type Colors = { fills: Record<string, string>; legend: LegendItem[] };
+
 /** How `render()` draws a map. */
 export type RenderOptions = {
   /** Fill color per area code. Areas without one use `fill`. */

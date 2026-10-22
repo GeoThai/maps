@@ -1,6 +1,7 @@
 import { loaders } from './shapes/districts';
 import type { MapShapes } from './types';
 
+export { choropleth } from './colors';
 export { render, toSvg } from './render';
 export { default as provinces } from './shapes/provinces';
 
