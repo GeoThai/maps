@@ -5,7 +5,8 @@ const escape = (text: string) =>
     .replaceAll('&', '&amp;')
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;');
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#x27;');
 
 /**
  * Lays a map out: the SVG attributes and every element inside, in draw order.
@@ -63,7 +64,7 @@ const nodeSvg = (n: MapNode) => {
     case 'line':
       return (
         `<path d="${n.d}" fill="none" stroke="${escape(n.stroke)}" stroke-width="${n.width}" ` +
-        'stroke-linejoin="round" vector-effect="non-scaling-stroke"/>'
+        'stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>'
       );
   }
 };

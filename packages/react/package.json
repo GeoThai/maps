@@ -1,0 +1,47 @@
+{
+  "name": "@geothai/maps-react",
+  "version": "0.0.0",
+  "description": "React component for maps of Thailand, on DOPA codes",
+  "keywords": [
+    "choropleth",
+    "map",
+    "react",
+    "svg",
+    "thailand"
+  ],
+  "homepage": "https://geothai.fasu.dev",
+  "license": "MIT AND CC-BY-3.0-IGO",
+  "author": "Pongsakorn Thipayanate",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeoThai/maps.git",
+    "directory": "packages/react"
+  },
+  "files": [
+    "dist",
+    "NOTICE"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "test": "bun test",
+    "typecheck": "tsc"
+  },
+  "devDependencies": {
+    "@geothai/maps": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "tsdown": "0.23.1"
+  },
+  "peerDependencies": {
+    "react": ">=19"
+  }
+}
