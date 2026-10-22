@@ -18,7 +18,7 @@
     },
     "packages/maps": {
       "name": "@geothai/maps",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "devDependencies": {
         "@arethetypeswrong/core": "0.18.5",
         "@happy-dom/global-registrator": "21.0.4",
@@ -39,7 +39,7 @@
     },
     "packages/react": {
       "name": "@geothai/maps-react",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "dependencies": {
         "@geothai/maps": "^0.2.0",
       },
