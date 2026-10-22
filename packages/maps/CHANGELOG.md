@@ -1,5 +1,13 @@
 # @geothai/maps
 
+## 0.3.0
+
+### Minor Changes
+
+- [`b6c6297`](https://github.com/GeoThai/maps/commit/b6c6297250949b7f0a58dd5c3ed3531978d4b2f6) Thanks [@pyyupsk](https://github.com/pyyupsk)! - Add label points and labels. Every shape now has `x` and `y`, the point deepest inside its largest part. `render()` takes `labels` and `labelSize` to write text there, with a white stroke behind it, and `<geothai-map>` reads `labels="th"` or `labels="en"`.
+
+- [`a23c62d`](https://github.com/GeoThai/maps/commit/a23c62d016f0b1c93ad3b1fa4897c18de7528ff4) Thanks [@pyyupsk](https://github.com/pyyupsk)! - Add `subdistrictMap(code)` and `hasSubdistrictMap(code)`: the subdistricts of each district, one module per district. A shape that covers several new khwaeng lists them in `codes`.
+
 ## 0.2.0
 
 ### Minor Changes
