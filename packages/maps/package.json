@@ -1,0 +1,51 @@
+{
+  "name": "@geothai/maps",
+  "version": "0.0.0",
+  "description": "Maps of Thailand for data, on DOPA codes: SVG for any framework",
+  "keywords": [
+    "choropleth",
+    "geothai",
+    "map",
+    "svg",
+    "thailand"
+  ],
+  "homepage": "https://geothai.fasu.dev",
+  "license": "MIT AND CC-BY-3.0-IGO",
+  "author": "Pongsakorn Thipayanate",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeoThai/maps.git",
+    "directory": "packages/maps"
+  },
+  "files": [
+    "dist",
+    "NOTICE"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./dist/index.js",
+    "./types": "./dist/types.js",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "shapes": "bun scripts/shapes.ts",
+    "test": "bun test",
+    "typecheck": "tsc"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/core": "0.18.5",
+    "@repo/typescript-config": "workspace:*",
+    "@types/d3-geo": "3.1.1",
+    "@types/geojson": "7946.0.16",
+    "@types/topojson-client": "3.1.5",
+    "@types/topojson-simplify": "3.0.3",
+    "@types/topojson-specification": "1.0.5",
+    "d3-geo": "3.1.1",
+    "publint": "0.3.25",
+    "topojson-client": "3.1.0",
+    "topojson-simplify": "3.0.3",
+    "tsdown": "0.23.1"
+  }
+}
