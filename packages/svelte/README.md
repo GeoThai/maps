@@ -28,6 +28,8 @@ npm install @geothai/maps-svelte @geothai/maps
 `<GeoThaiMap>` takes `map` and every option of `render()`: `fills`, `fill`, `stroke`, `href`,
 `label`, `title`, `highlight`, `labels` and `labelSize`.
 
+[Full docs on geothai.fasu.dev](https://geothai.fasu.dev/docs/#maps), and try it with your table on the [map page](https://geothai.fasu.dev/map/).
+
 ## License
 
 The code is MIT, the shapes CC BY 3.0 IGO (`MIT AND CC-BY-3.0-IGO`, full credits in `NOTICE`).

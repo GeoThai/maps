@@ -102,6 +102,8 @@ render(provinces, { labels: (s) => s.name_th, labelSize: 14 });
 
 `<geothai-map>` reads `labels="th"` or `labels="en"` for the same thing.
 
+[Full docs on geothai.fasu.dev](https://geothai.fasu.dev/docs/#maps), and try it with your table on the [map page](https://geothai.fasu.dev/map/).
+
 ## Data
 
 The shapes come from [GeoThai/boundaries](https://github.com/GeoThai/boundaries), checked
