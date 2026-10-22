@@ -8,6 +8,9 @@ export type Shape = {
   name_en: string;
   /** SVG path data in whole map units. */
   d: string;
+  /** Where a label goes: the point deepest inside the largest part of the area. */
+  x: number;
+  y: number;
 };
 
 /** A set of areas drawn together, such as all provinces or the districts of one province. */
@@ -62,6 +65,10 @@ export type RenderOptions = {
   title?: string;
   /** Codes to draw on top with a thick stroke, such as the area of the current page. */
   highlight?: string[];
+  /** Text to write at the label point of each area. Return `undefined` for no label. */
+  labels?: (shape: Shape) => string | undefined;
+  /** Height of the label text in map units. Default: a fiftieth of the map width. */
+  labelSize?: number;
 };
 
 /** One element of a rendered map. Every adapter draws exactly these, in this order. */
@@ -74,7 +81,8 @@ export type MapNode =
       stroke: string;
       /** Screen pixels: the line keeps its width at any map size. */
       width: number;
-    };
+    }
+  | { kind: 'label'; code: string; x: number; y: number; text: string; size: number };
 
 /** A map ready for any renderer: the SVG attributes and the elements inside it. */
 export type MapModel = { viewBox: string; title: string; nodes: MapNode[] };

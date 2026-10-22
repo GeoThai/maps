@@ -9,6 +9,24 @@ export type GeoThaiMapProps = RenderOptions & {
 };
 
 function Node({ node }: Readonly<{ node: MapNode }>): ReactElement {
+  if (node.kind === 'label') {
+    return (
+      <text
+        x={node.x}
+        y={node.y}
+        fontSize={node.size}
+        textAnchor="middle"
+        dominantBaseline="central"
+        fill="#0f1115"
+        stroke="#ffffff"
+        strokeWidth={node.size / 5}
+        paintOrder="stroke"
+        strokeLinejoin="round"
+      >
+        {node.text}
+      </text>
+    );
+  }
   if (node.kind === 'line') {
     return (
       <path
@@ -51,7 +69,7 @@ export function GeoThaiMap(props: Readonly<GeoThaiMapProps>): ReactElement {
     >
       <title>{model.title}</title>
       {model.nodes.map((n) => (
-        <Node key={n.kind === 'area' ? n.code : n.key} node={n} />
+        <Node key={n.kind === 'line' ? n.key : `${n.kind}${n.code}`} node={n} />
       ))}
     </svg>
   );

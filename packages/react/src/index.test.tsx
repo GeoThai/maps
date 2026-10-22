@@ -11,6 +11,7 @@ test('the React map has exactly the markup of toSvg()', async () => {
     href: (s: { code: string }) => `/provinces/${s.code}/?a=1&b=2`,
     fills: { 84: '#0f1115' },
     highlight: ['84'],
+    labels: (s: { name_en: string }) => s.name_en,
   };
   expect(renderToStaticMarkup(<GeoThaiMap map={provinces} {...options} />)).toBe(
     toSvg(render(provinces, options)),

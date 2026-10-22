@@ -11,9 +11,16 @@ const tiny: MapShapes = {
   width: 10,
   height: 10,
   shapes: [
-    { code: '10', name_th: 'กรุงเทพมหานคร', name_en: 'Bangkok', d: 'M0 0' },
-    { code: '84', name_th: 'สุราษฎร์ธานี', name_en: 'Surat Thani', d: 'M1 0' },
-    { code: '14', name_th: 'พระนครศรีอยุธยา', name_en: 'Phra Nakhon Si Ayutthaya', d: 'M2 0' },
+    { code: '10', name_th: 'กรุงเทพมหานคร', name_en: 'Bangkok', d: 'M0 0', x: 0, y: 0 },
+    { code: '84', name_th: 'สุราษฎร์ธานี', name_en: 'Surat Thani', d: 'M1 0', x: 1, y: 0 },
+    {
+      code: '14',
+      name_th: 'พระนครศรีอยุธยา',
+      name_en: 'Phra Nakhon Si Ayutthaya',
+      d: 'M2 0',
+      x: 2,
+      y: 0,
+    },
   ],
   borders: '',
   outline: '',
@@ -53,7 +60,7 @@ test('fromNames reports a name that fits two areas as unmatched', () => {
     ...tiny,
     shapes: [
       ...tiny.shapes,
-      { code: '15', name_th: 'สุราษฎร์บุรี', name_en: 'Surat Thani', d: 'M3 0' },
+      { code: '15', name_th: 'สุราษฎร์บุรี', name_en: 'Surat Thani', d: 'M3 0', x: 3, y: 0 },
     ],
   };
   const { found, unmatched } = fromNames(['Surat Thani'], two);

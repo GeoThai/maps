@@ -48,10 +48,15 @@ export function render(map: MapShapes, options: RenderOptions = {}): MapModel {
       });
     }
   }
+  const size = options.labelSize ?? Math.round(map.width / 50);
+  const labels: MapNode[] = map.shapes.flatMap((s) => {
+    const text = options.labels?.(s);
+    return text ? [{ kind: 'label' as const, code: s.code, x: s.x, y: s.y, text, size }] : [];
+  });
   return {
     viewBox: `0 0 ${map.width} ${map.height}`,
     title: options.title ?? 'Map of Thailand',
-    nodes: [...areas, ...lines],
+    nodes: [...areas, ...lines, ...labels],
   };
 }
 
@@ -65,6 +70,12 @@ const nodeSvg = (n: MapNode) => {
       return (
         `<path d="${n.d}" fill="none" stroke="${escape(n.stroke)}" stroke-width="${n.width}" ` +
         'stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>'
+      );
+    case 'label':
+      return (
+        `<text x="${n.x}" y="${n.y}" font-size="${n.size}" text-anchor="middle" ` +
+        `dominant-baseline="central" fill="#0f1115" stroke="#ffffff" stroke-width="${n.size / 5}" ` +
+        `paint-order="stroke" stroke-linejoin="round">${escape(n.text)}</text>`
       );
   }
 };

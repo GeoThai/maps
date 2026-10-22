@@ -1,5 +1,5 @@
 import { districtMap } from './index';
-import { render } from './render';
+import { render, toSvg } from './render';
 import provinces from './shapes/provinces';
 import type { MapModel, RenderOptions } from './types';
 
@@ -19,7 +19,7 @@ import type { MapModel, RenderOptions } from './types';
  */
 export class GeoThaiMap extends HTMLElement {
   static get observedAttributes(): string[] {
-    return ['level', 'province', 'title', 'fills', 'href', 'highlight', 'stroke', 'fill'];
+    return ['level', 'province', 'title', 'fills', 'href', 'highlight', 'stroke', 'fill', 'labels'];
   }
 
   #level = 'province';
@@ -46,6 +46,7 @@ export class GeoThaiMap extends HTMLElement {
     };
     const fills = read('fills');
     const href = this.getAttribute('href');
+    const labels = this.getAttribute('labels');
     return {
       title: this.getAttribute('title') ?? undefined,
       fill: this.getAttribute('fill') ?? undefined,
@@ -54,6 +55,7 @@ export class GeoThaiMap extends HTMLElement {
         typeof fills === 'object' && fills !== null ? (fills as RenderOptions['fills']) : undefined,
       href: href ? (shape) => href.replaceAll('{code}', encodeURIComponent(shape.code)) : undefined,
       highlight: Array.isArray(read('highlight')) ? (read('highlight') as string[]) : undefined,
+      labels: labels === 'th' || labels === 'en' ? (shape) => shape[`name_${labels}`] : undefined,
     };
   }
 
@@ -71,50 +73,8 @@ export class GeoThaiMap extends HTMLElement {
       );
       return;
     }
-    const svg = this.querySelector('svg');
-    if (svg) {
-      this.replaceChildren(svg);
-      this.#paint(svg, model);
-      return;
-    }
-    const next = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    this.#paint(next, model);
-    this.replaceChildren(next);
-  }
-
-  #paint(svg: SVGSVGElement, model: MapModel) {
-    svg.setAttribute('viewBox', model.viewBox);
-    svg.setAttribute('role', 'img');
-    svg.setAttribute('aria-label', model.title);
-    const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-    title.textContent = model.title;
-    svg.replaceChildren(title);
-    for (const n of model.nodes) {
-      if (n.kind === 'area') {
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        path.setAttribute('d', n.d);
-        path.setAttribute('fill', n.fill);
-        const label = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-        label.textContent = n.label;
-        path.append(label);
-        let area: Element = svg;
-        if (n.href) {
-          area = document.createElementNS('http://www.w3.org/2000/svg', 'a');
-          area.setAttribute('href', n.href);
-        }
-        area.append(path);
-        if (area !== svg) svg.append(area);
-      } else {
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        path.setAttribute('d', n.d);
-        path.setAttribute('fill', 'none');
-        path.setAttribute('stroke', n.stroke);
-        path.setAttribute('stroke-width', String(n.width));
-        path.setAttribute('stroke-linejoin', 'round');
-        path.setAttribute('vector-effect', 'non-scaling-stroke');
-        svg.append(path);
-      }
-    }
+    // toSvg() escapes every label, title and link, so the markup is safe to set.
+    this.innerHTML = toSvg(model);
   }
 }
 

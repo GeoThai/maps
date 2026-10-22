@@ -2,6 +2,7 @@
 import { mkdir } from 'node:fs/promises';
 
 import { type GeoProjection, geoBounds, geoConicEqualArea, geoMercator, geoPath } from 'd3-geo';
+import polylabel from 'polylabel';
 import { feature, mesh } from 'topojson-client';
 import { presimplify, simplify, sphericalTriangleArea } from 'topojson-simplify';
 import type { GeometryCollection, Topology } from 'topojson-specification';
@@ -56,16 +57,41 @@ function draw(
   const places = feature(topo, areas);
   const path = geoPath(projection.fitWidth(width, places)).digits(0);
   const line = (g: Parameters<typeof path>[0]) => compact(path(g) ?? '');
+  const project = projection as unknown as (p: [number, number]) => [number, number] | null;
+  // The label goes at the point deepest inside the largest part, so it never falls outside.
+  type Ring = [number, number][];
+  const labelPoint = (g: GeoJSON.Geometry): [number, number] => {
+    let parts: number[][][][] = [];
+    if (g.type === 'Polygon') parts = [g.coordinates];
+    if (g.type === 'MultiPolygon') parts = g.coordinates;
+    const projected = parts.map((rings) =>
+      rings.map((ring) => ring.map((pt) => project(pt as [number, number]) ?? [0, 0])),
+    ) as unknown as Ring[][];
+    const area = (rings: Ring[]) =>
+      Math.abs(
+        (rings[0] ?? []).reduce((sum, [x, y], i, r) => {
+          const [nx, ny] = r[(i + 1) % r.length] ?? [x, y];
+          return sum + x * ny - nx * y;
+        }, 0),
+      );
+    const largest = projected.toSorted((a, b) => area(b) - area(a))[0];
+    if (!largest) return [0, 0];
+    const [x, y] = polylabel(largest, 1);
+    return [Math.round(x), Math.round(y)];
+  };
   const [, [, bottom]] = path.bounds(places);
   return {
     width,
     height: Math.ceil(bottom),
     shapes: places.features.map(({ properties: p, ...f }) => {
+      const [x, y] = labelPoint(f.geometry);
       const shape: Shape = {
         code: p.code ?? p.codes?.[0] ?? '',
         name_th: p.name_th ?? '',
         name_en: p.name_en ?? '',
         d: line({ ...f, properties: p }),
+        x,
+        y,
       };
       if (p.codes && p.codes.length > 1) shape.codes = p.codes;
       return shape;

@@ -8,8 +8,8 @@ const tiny: MapShapes = {
   width: 10,
   height: 10,
   shapes: [
-    { code: '10', name_th: 'กรุงเทพมหานคร', name_en: 'Bangkok', d: 'M0 0l5 0 0 5z' },
-    { code: '11', name_th: 'A <b>"&', name_en: 'Q', d: 'M5 0l5 0 0 5z' },
+    { code: '10', name_th: 'กรุงเทพมหานคร', name_en: 'Bangkok', d: 'M0 0l5 0 0 5z', x: 2, y: 2 },
+    { code: '11', name_th: 'A <b>"&', name_en: 'Q', d: 'M5 0l5 0 0 5z', x: 7, y: 2 },
   ],
   borders: 'M5 0l0 5',
   outline: 'M0 0l10 0',
@@ -47,4 +47,21 @@ test('toSvg escapes labels and links and names the map', () => {
 test('toSvg draws every province', () => {
   const svg = toSvg(render(provinces));
   expect(svg.match(/<path d="[^"]+" fill="#/g)).toHaveLength(77);
+});
+
+test('render writes a label at the label point of each area it is asked for', () => {
+  const model = render(tiny, {
+    labels: (s) => (s.code === '10' ? 'Bangkok & co' : undefined),
+    labelSize: 4,
+  });
+  expect(model.nodes.at(-1)).toEqual({
+    kind: 'label',
+    code: '10',
+    x: 2,
+    y: 2,
+    text: 'Bangkok & co',
+    size: 4,
+  });
+  expect(toSvg(model)).toContain('<text x="2" y="2" font-size="4"');
+  expect(toSvg(model)).toContain('>Bangkok &amp; co</text>');
 });
