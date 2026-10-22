@@ -1,6 +1,6 @@
 {
   "name": "@geothai/maps",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Maps of Thailand for data, on DOPA codes: SVG for any framework",
   "keywords": [
     "choropleth",
