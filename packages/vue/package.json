@@ -1,6 +1,6 @@
 {
   "name": "@geothai/maps-vue",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Vue component for maps of Thailand, on DOPA codes",
   "keywords": [
     "choropleth",
@@ -33,7 +33,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@geothai/maps": "^0.3.0"
+    "@geothai/maps": "^0.3.1"
   },
   "devDependencies": {
     "@repo/typescript": "workspace:*",
